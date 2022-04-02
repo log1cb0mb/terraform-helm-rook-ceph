@@ -1,23 +1,23 @@
 variable "chart_name" {
-  type    = string
+  type        = string
   description = "Chart name i.e rook-ceph or rook-ceph-cluster"
   default     = "rook-ceph"
 }
 
 variable "operator_namespace" {
-  type    = string
+  type        = string
   description = "Namespace of the main rook operator"
-  default = "rook-ceph"
+  default     = "rook-ceph"
 }
 
 variable "helm_repository" {
-  type    = string
+  type        = string
   description = "Rook Helm releases repository URL"
-  default = "https://charts.rook.io/release"
+  default     = "https://charts.rook.io/release"
 }
 
 variable "rook_version" {
-  type    = string
+  type        = string
   description = "Rook release version for operator and ceph-cluster"
 }
 
@@ -40,9 +40,9 @@ variable "enable_psp" {
 }
 
 variable "log_level" {
-  type    = string
+  type        = string
   description = "The logging level for the operator: ERROR | WARNING | INFO | DEBUG"
-  default  = "INFO"
+  default     = "INFO"
 }
 
 variable "enable_rbd_driver" {
@@ -106,15 +106,15 @@ variable "enable_toolbox" {
 }
 
 variable "ceph_version" {
-  type    = string
+  type        = string
   description = "Ceph image tag"
-  default  = "quay.io/ceph/ceph:v16.2.7"
+  default     = "quay.io/ceph/ceph:v16.2.7"
 }
 
 variable "hostpath_dir" {
-  type    = string
+  type        = string
   description = "Path on the host where configuration data will be persisted"
-  default  = "/var/lib/rook"
+  default     = "/var/lib/rook"
 }
 
 variable "mon_count" {
@@ -188,93 +188,93 @@ variable "dns_zone" {
 }
 
 variable "custom_blockpools" {
-    # see https://github.com/rook/rook/blob/master/Documentation/ceph-pool-crd.md#spec for available configuration
-    type = list(object({
-    name     = string
-    failure_domain  = string
-    replicated_pool_size  = number
-    crush_root = string
-    sc_name = string
-    sc_enabled = bool
-    sc_isdefault = bool
-    sc_reclaim_policy = string
+  # see https://github.com/rook/rook/blob/master/Documentation/ceph-pool-crd.md#spec for available configuration
+  type = list(object({
+    name                      = string
+    failure_domain            = string
+    replicated_pool_size      = number
+    crush_root                = string
+    sc_name                   = string
+    sc_enabled                = bool
+    sc_isdefault              = bool
+    sc_reclaim_policy         = string
     sc_allow_volume_expansion = bool
-    mount_options = map(string)
-    parameters = map(string)
+    mount_options             = map(string)
+    parameters                = map(string)
   }))
-    description = "Custom Ceph Block Pools in addition to default pool"
-  default = []
+  description = "Custom Ceph Block Pools in addition to default pool"
+  default     = []
 }
 
 variable "custom_filesystems" {
-    # see https://github.com/rook/rook/blob/master/Documentation/ceph-filesystem-crd.md#filesystem-settings for available configuration
-    type = list(object({
-    name     = string
-    failure_domain  = string
-    metadata_replicated_pool_size  = number
-    data_replicated_pool_size  = number
-    sc_name = string
-    sc_enabled = bool
-    sc_isdefault = bool
-    sc_reclaim_policy = string
-    sc_allow_volume_expansion = bool
-    mount_options = map(string)
-    parameters = map(string)
+  # see https://github.com/rook/rook/blob/master/Documentation/ceph-filesystem-crd.md#filesystem-settings for available configuration
+  type = list(object({
+    name                          = string
+    failure_domain                = string
+    metadata_replicated_pool_size = number
+    data_replicated_pool_size     = number
+    sc_name                       = string
+    sc_enabled                    = bool
+    sc_isdefault                  = bool
+    sc_reclaim_policy             = string
+    sc_allow_volume_expansion     = bool
+    mount_options                 = map(string)
+    parameters                    = map(string)
   }))
-    description = "Custom Ceph Filesystems in addition to default pool"
-  default = []
+  description = "Custom Ceph Filesystems in addition to default pool"
+  default     = []
 }
 
 variable "custom_objectstores" {
-    # see https://github.com/rook/rook/blob/master/Documentation/ceph-object-store-crd.md#object-store-settings for available configuration
-    type = list(object({
-    name     = string
-    failure_domain  = string
-    metadata_replicated_pool_size  = number
-    data_erasure_data_chunks  = number
-    data_erasure_coding_chunks  = number
-    preserve_pool_ondelete = bool
-    object_gw_port = string
-    object_gw_secure_port = string
-    object_gw_ssl_cert  = string
-    object_gw_instnces = number
-    healthcheck_bucket_interval = string
-    sc_enabled = bool
-    sc_name  = string
-    sc_reclaim_policy = string
+  # see https://github.com/rook/rook/blob/master/Documentation/ceph-object-store-crd.md#object-store-settings for available configuration
+  type = list(object({
+    name                          = string
+    failure_domain                = string
+    metadata_replicated_pool_size = number
+    data_erasure_data_chunks      = number
+    data_erasure_coding_chunks    = number
+    preserve_pool_ondelete        = bool
+    object_gw_port                = string
+    object_gw_secure_port         = string
+    object_gw_ssl_cert            = string
+    object_gw_instnces            = number
+    healthcheck_bucket_interval   = string
+    sc_enabled                    = bool
+    sc_name                       = string
+    sc_reclaim_policy             = string
     # see https://github.com/rook/rook/blob/master/Documentation/ceph-object-bucket-claim.md#storageclass for available configuration
     parameters = map(string)
   }))
-    description = "Custom Ceph Object Stores in addition to default pool"
-  default = []
+  description = "Custom Ceph Object Stores in addition to default pool"
+  default     = []
 }
 
 variable "bp_volumesnapshot_class" {
-    # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#rbd-snapshots for available configuration
-    type = list(object({
-    enabled  = bool
-    name     = string
-    isdefault  = bool
-    deletion_policy  = string
-    annotations = map(string)
-    labels = map(string)
-    parameters = map(string)
+  # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#rbd-snapshots for available configuration
+  type = list(object({
+    enabled         = bool
+    name            = string
+    isdefault       = bool
+    deletion_policy = string
+    annotations     = map(string)
+    labels          = map(string)
+    parameters      = map(string)
   }))
   description = "RBD Volume Snapshot Class"
-  default = []
+  default     = []
 }
 
 variable "fs_volumesnapshot_class" {
-    # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#cephfs-snapshots for available configuration
-    type = list(object({
-    enabled  = bool
-    name     = string
-    isdefault  = bool
-    deletion_policy  = string
-    annotations = map(string)
-    labels = map(string)
-    parameters = map(string)
+  # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#cephfs-snapshots for available configuration
+  type = list(object({
+    enabled         = bool
+    name            = string
+    isdefault       = bool
+    deletion_policy = string
+    annotations     = map(string)
+    labels          = map(string)
+    parameters      = map(string)
   }))
   description = "CephFS Volume Snapshot Class"
-  default = []
+  default     = []
 }
